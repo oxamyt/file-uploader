@@ -1,12 +1,11 @@
 const express = require("express");
 const path = require("path");
-const session = require("express-session");
 const passport = require("passport");
-const userRouter = require("./routes/userRouter");
 require("dotenv").config();
 const expressSession = require("express-session");
 const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
 const { PrismaClient } = require("@prisma/client");
+const indexRouter = require("./routes/indexRouter");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -36,6 +35,8 @@ app.use(passport.session());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static("public"));
+
+app.use("/", indexRouter);
 
 app.listen(port, "0.0.0.0", () => {
   console.log(`Example app listening on port ${port}`);
