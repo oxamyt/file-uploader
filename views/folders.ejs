@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Folders Page</title>
+  </head>
+  <body>
+    <h1>Your Folders</h1>
+    <% if (folders.length > 0) { %>
+    <ul>
+      <% folders.forEach(folder => { %>
+      <li>
+        <h1>"><%= folder.name %></h1>
+      </li>
+      <% }) %>
+    </ul>
+    <% } else { %>
+    <p>You don't have any folders yet.</p>
+    <% } %>
+    <a href="/folders/create">Create a new folder</a>
+  </body>
+</html>

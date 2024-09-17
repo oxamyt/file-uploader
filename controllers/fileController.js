@@ -44,7 +44,34 @@ async function getFolders(req, res) {
   }
 }
 
+async function getFoldersCreate(req, res) {
+  try {
+    res.render("folderCreate", { user: req.user });
+  } catch (err) {
+    handleError(res, err);
+  }
+}
+
+async function postFoldersCreate(req, res) {
+  try {
+    const { name } = req.body;
+
+    const Folder = await prisma.folder.create({
+      data: {
+        name: name,
+        userId: req.user.id,
+      },
+    });
+    res.redirect("/files/folders");
+  } catch (err) {
+    handleError(res, err);
+  }
+}
+
 module.exports = {
   getUpload,
   postUpload,
+  getFolders,
+  getFoldersCreate,
+  postFoldersCreate,
 };
