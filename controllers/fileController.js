@@ -31,6 +31,19 @@ async function postUpload(req, res) {
   }
 }
 
+async function getFolders(req, res) {
+  try {
+    const folders = await prisma.folder.findMany({
+      where: {
+        userId: req.user.id,
+      },
+    });
+    res.render("folders", { folders: folders });
+  } catch (err) {
+    handleError(res, err);
+  }
+}
+
 module.exports = {
   getUpload,
   postUpload,
