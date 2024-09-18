@@ -8,6 +8,9 @@
   <body>
     <% if (user) { %>
     <h1>Welcome back <%= user.username %></h1>
+    <a href="/files/folders/create">Create folder</a>
+    <a href="/logout">Logout</a>
+    <a href="/files/folders">Folders</a>
     <% } else { %>
     <h1>Please sign up first!</h1>
     <a href="/sign-up">Sign up!</a>

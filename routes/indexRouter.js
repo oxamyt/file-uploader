@@ -25,4 +25,6 @@ indexRouter.post(
   })
 );
 
+indexRouter.get("/logout", indexController.getLogout);
+
 module.exports = indexRouter;

@@ -68,10 +68,49 @@ async function postFoldersCreate(req, res) {
   }
 }
 
+async function getUpdateFolder(req, res) {
+  const folderId = parseInt(req.params.id);
+
+  try {
+    const Folder = await prisma.folder.findUnique({
+      where: {
+        id: folderId,
+      },
+    });
+
+    res.render("folderUpdate", { user: req.user, folder: Folder });
+  } catch (err) {
+    handleError(res, err);
+  }
+}
+
+async function postUpdateFolder(req, res) {
+  const { name } = req.body;
+
+  const folderId = parseInt(req.params.id);
+
+  try {
+    const Folder = await prisma.folder.update({
+      where: {
+        id: folderId,
+      },
+      data: {
+        name: name,
+      },
+    });
+
+    res.redirect("/files/folders");
+  } catch (err) {
+    handleError(res, err);
+  }
+}
+
 module.exports = {
   getUpload,
   postUpload,
   getFolders,
   getFoldersCreate,
   postFoldersCreate,
+  getUpdateFolder,
+  postUpdateFolder,
 };

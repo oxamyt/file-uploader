@@ -53,9 +53,17 @@ async function getLogin(req, res) {
   res.render("login", { user: req.user });
 }
 
+async function getLogout(req, res, next) {
+  req.logout((err) => {
+    if (err) return next(err);
+    res.redirect("/");
+  });
+}
+
 module.exports = {
   getHomepage,
   getSignUp,
   postSignUp,
   getLogin,
+  getLogout,
 };

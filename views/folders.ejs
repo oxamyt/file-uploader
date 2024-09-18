@@ -11,7 +11,8 @@
     <ul>
       <% folders.forEach(folder => { %>
       <li>
-        <h1>"><%= folder.name %></h1>
+        <h1><%= folder.name %></h1>
+        <a href="/files/folders/update/<%= folder.id %>">Update folder</a>
       </li>
       <% }) %>
     </ul>

@@ -18,6 +18,17 @@ fileRouter.post(
 fileRouter.get("/folders", checkAuth, fileController.getFolders);
 
 fileRouter.get("/folders/create", checkAuth, fileController.getFoldersCreate);
-fileRouter.get("/foldesr/create", checkAuth, fileController.postFoldersCreate);
+fileRouter.post("/folders/create", checkAuth, fileController.postFoldersCreate);
+
+fileRouter.get(
+  "/folders/update/:id",
+  checkAuth,
+  fileController.getUpdateFolder
+);
+fileRouter.post(
+  "/folders/update/:id",
+  checkAuth,
+  fileController.postUpdateFolder
+);
 
 module.exports = fileRouter;
