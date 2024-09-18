@@ -14,12 +14,15 @@
         <h1><%= folder.name %></h1>
         <a href="/files/folders/update/<%= folder.id %>">Update folder</a>
         <a href="/files/folders/<%= folder.id %>">Folder Files</a>
+        <form action="/files/folders/delete/<%= folder.id %>" method="post">
+          <button type="submit">Delete Folder</button>
+        </form>
       </li>
       <% }) %>
     </ul>
     <% } else { %>
     <p>You don't have any folders yet.</p>
     <% } %>
-    <a href="/folders/create">Create a new folder</a>
+    <a href="/files/folders/create">Create a new folder</a>
   </body>
 </html>

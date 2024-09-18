@@ -33,4 +33,10 @@ fileRouter.post(
 
 fileRouter.get("/folders/:id", checkAuth, fileController.getFolderFiles);
 
+fileRouter.post(
+  "/folders/delete/:id",
+  checkAuth,
+  fileController.postDeleteFolder
+);
+
 module.exports = fileRouter;
