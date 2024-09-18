@@ -9,6 +9,15 @@
     <form action="/files/upload" method="post" enctype="multipart/form-data">
       <label for="file">File:</label>
       <input type="file" id="file" name="file" required />
+
+      <label for="folder">Select Folder:</label>
+      <select id="folder" name="folderId" required>
+        <option value="" disabled selected>Select a folder</option>
+        <% folders.forEach(folder => { %>
+        <option value="<%= folder.id %>"><%= folder.name %></option>
+        <% }) %>
+      </select>
+
       <button type="submit">Submit</button>
     </form>
   </body>

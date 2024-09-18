@@ -9,11 +9,24 @@ function handleError(res, err) {
 }
 
 async function getUpload(req, res) {
-  res.render("uploadFile");
+  try {
+    const userId = parseInt(req.user.id);
+
+    const Folders = await prisma.folder.findMany({
+      where: {
+        userId: userId,
+      },
+    });
+
+    res.render("uploadFile", { folders: Folders });
+  } catch (err) {
+    handleError(res, err);
+  }
 }
 
 async function postUpload(req, res) {
-  const { file } = req;
+  const { folderId } = req.body;
+  const file = req.file;
 
   if (!file) {
     return res.status(400);
@@ -21,11 +34,13 @@ async function postUpload(req, res) {
   try {
     const File = await prisma.file.create({
       data: {
-        name: file.originalName,
+        name: file.originalname,
         size: file.size,
         url: `/uploads/${file.filename}`,
+        folderId: parseInt(folderId),
       },
     });
+    res.redirect("/files/folders");
   } catch (err) {
     handleError(res, err);
   }
