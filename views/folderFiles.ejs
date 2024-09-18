@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Folder Files</title>
+  </head>
+  <body>
+    <h1>Files in Folder</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Size (bytes)</th>
+          <th>Created At</th>
+          <th>URL</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% files.forEach(function(file) { %>
+        <tr>
+          <td><%= file.name %></td>
+          <td><%= file.size %></td>
+          <td><%= new Date(file.createdAt).toLocaleDateString() %></td>
+          <td class="file-url">
+            <a href="<%= file.url %>" target="_blank"><%= file.url %></a>
+          </td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </body>
+</html>

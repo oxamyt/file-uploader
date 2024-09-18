@@ -31,4 +31,6 @@ fileRouter.post(
   fileController.postUpdateFolder
 );
 
+fileRouter.get("/folders/:id", checkAuth, fileController.getFolderFiles);
+
 module.exports = fileRouter;

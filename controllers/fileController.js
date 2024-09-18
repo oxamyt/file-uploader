@@ -120,6 +120,22 @@ async function postUpdateFolder(req, res) {
   }
 }
 
+async function getFolderFiles(req, res) {
+  const folderId = parseInt(req.params.id);
+
+  try {
+    const Files = await prisma.file.findMany({
+      where: {
+        folderId: folderId,
+      },
+    });
+
+    res.render("folderFiles", { files: Files });
+  } catch (err) {
+    handleError(res, err);
+  }
+}
+
 module.exports = {
   getUpload,
   postUpload,
@@ -128,4 +144,5 @@ module.exports = {
   postFoldersCreate,
   getUpdateFolder,
   postUpdateFolder,
+  getFolderFiles,
 };
