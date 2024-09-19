@@ -39,4 +39,6 @@ fileRouter.post(
   fileController.postDeleteFolder
 );
 
+fileRouter.post("/delete/:id", checkAuth, fileController.postDeleteFile);
+
 module.exports = fileRouter;

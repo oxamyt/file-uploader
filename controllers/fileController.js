@@ -152,6 +152,22 @@ async function getFolderFiles(req, res) {
   }
 }
 
+async function postDeleteFile(req, res) {
+  try {
+    const fileId = parseInt(req.params.id);
+
+    const DeleteFile = await prisma.file.delete({
+      where: {
+        id: fileId,
+      },
+    });
+
+    res.redirect("/files/folders");
+  } catch (err) {
+    handleError(res, err);
+  }
+}
+
 module.exports = {
   getUpload,
   postUpload,
@@ -162,4 +178,5 @@ module.exports = {
   postUpdateFolder,
   getFolderFiles,
   postDeleteFolder,
+  postDeleteFile,
 };

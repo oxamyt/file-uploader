@@ -25,6 +25,11 @@
           <td class="file-url">
             <a href="<%= file.url %>" target="_blank"><%= file.url %></a>
           </td>
+          <td>
+            <form action="/files/delete/<%= file.id %>" method="post">
+              <button type="submit">Delete File</button>
+            </form>
+          </td>
         </tr>
         <% }) %>
       </tbody>
