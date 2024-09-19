@@ -25,6 +25,9 @@
           <td><%= file.folder.name %></td>
           <td><%= (file.size / 1024).toFixed(2) %> KB</td>
           <td><%= new Date(file.createdAt).toLocaleDateString() %></td>
+          <form action="/files/delete/<%= file.id %>" method="post">
+            <button type="submit">Delete File</button>
+          </form>
         </tr>
         <% }) %>
       </tbody>

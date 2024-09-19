@@ -27,7 +27,7 @@ async function getUpload(req, res) {
 async function postUpload(req, res) {
   const { folderId } = req.body;
   const file = req.file;
-
+  const fileUrl = req.file.path;
   if (!file) {
     return res.status(400);
   }
@@ -36,7 +36,7 @@ async function postUpload(req, res) {
       data: {
         name: file.originalname,
         size: file.size,
-        url: `/uploads/${file.filename}`,
+        url: fileUrl,
         folderId: parseInt(folderId),
       },
     });
@@ -146,7 +146,12 @@ async function getFolderFiles(req, res) {
       },
     });
 
-    res.render("folderFiles", { files: Files });
+    const updatedFiles = Files.map((file) => ({
+      ...file,
+      url: file.url.replace(/upload/, "upload/fl_attachment"),
+    }));
+
+    res.render("folderFiles", { files: updatedFiles });
   } catch (err) {
     handleError(res, err);
   }
