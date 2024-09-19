@@ -40,6 +40,15 @@ async function getFilesWithFolderInfo(userId) {
   });
 }
 
+async function createUser(username, hashedPassword) {
+  return prisma.user.create({
+    data: {
+      username,
+      password: hashedPassword,
+    },
+  });
+}
+
 module.exports = {
   getFoldersByUserId,
   createFile,
@@ -50,4 +59,5 @@ module.exports = {
   getFilesByFolderId,
   deleteFileById,
   getFilesWithFolderInfo,
+  createUser,
 };
