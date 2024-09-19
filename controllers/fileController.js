@@ -168,6 +168,27 @@ async function postDeleteFile(req, res) {
   }
 }
 
+async function getFiles(req, res) {
+  try {
+    const userId = parseInt(req.user.id);
+
+    const Files = await prisma.file.findMany({
+      where: {
+        folder: {
+          userId: userId,
+        },
+      },
+      include: {
+        folder: true,
+      },
+    });
+
+    res.render("files", { files: Files });
+  } catch (err) {
+    handleError(res, err);
+  }
+}
+
 module.exports = {
   getUpload,
   postUpload,
@@ -179,4 +200,5 @@ module.exports = {
   getFolderFiles,
   postDeleteFolder,
   postDeleteFile,
+  getFiles,
 };

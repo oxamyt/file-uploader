@@ -7,6 +7,8 @@ const checkAuth = require("../utils/checkAuth");
 
 const fileRouter = Router();
 
+fileRouter.get("/", checkAuth, fileController.getFiles);
+
 fileRouter.get("/upload", checkAuth, fileController.getUpload);
 fileRouter.post(
   "/upload",
