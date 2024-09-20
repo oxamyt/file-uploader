@@ -6,6 +6,16 @@
     <title>Create Folder</title>
   </head>
   <body>
+    <h1>Update Folder</h1>
+
+    <% if (errors) { %>
+    <ul>
+      <% errors.forEach(error => { %>
+      <li class="error"><%= error.msg %></li>
+      <% }) %>
+    </ul>
+    <% } %>
+
     <form action="/files/folders/update/<%= folder.id %>" method="post">
       <label for="name">Folder name:</label>
       <input
@@ -15,7 +25,7 @@
         value="<%= folder.name %>"
         required
       />
-      <button type="submit">Button</button>
+      <button type="submit">Update</button>
     </form>
   </body>
 </html>

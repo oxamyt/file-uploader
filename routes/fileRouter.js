@@ -2,6 +2,8 @@ const { Router } = require("express");
 const fileController = require("../controllers/fileController");
 const upload = require("../utils/multerConfig");
 const checkAuth = require("../utils/checkAuth");
+const { folderValidation, fileValidation } = require("../utils/validators");
+const { validate } = require("../utils/validate");
 
 const fileRouter = Router();
 
@@ -18,7 +20,13 @@ fileRouter.post(
 fileRouter.get("/folders", checkAuth, fileController.getFolders);
 
 fileRouter.get("/folders/create", checkAuth, fileController.getFoldersCreate);
-fileRouter.post("/folders/create", checkAuth, fileController.postFoldersCreate);
+fileRouter.post(
+  "/folders/create",
+  checkAuth,
+  folderValidation,
+  validate("folderCreate"),
+  fileController.postFoldersCreate
+);
 
 fileRouter.get(
   "/folders/update/:id",
@@ -28,6 +36,7 @@ fileRouter.get(
 fileRouter.post(
   "/folders/update/:id",
   checkAuth,
+  folderValidation,
   fileController.postUpdateFolder
 );
 

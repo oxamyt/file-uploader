@@ -12,3 +12,16 @@ exports.signupValidation = [
     return true;
   }),
 ];
+
+exports.loginValidation = [
+  body("username").notEmpty().withMessage("Username is required"),
+  body("password").notEmpty().withMessage("Password is required"),
+];
+
+exports.folderValidation = [
+  body("name")
+    .notEmpty()
+    .withMessage("Folder name is required.")
+    .isLength({ max: 50 })
+    .withMessage("Folder must be less than 50 characters"),
+];

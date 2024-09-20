@@ -41,7 +41,7 @@ async function postSignUp(req, res) {
 }
 
 async function getLogin(req, res) {
-  res.render("login", { user: req.user });
+  res.render("login", { user: req.user, errors: [] });
 }
 
 async function getLogout(req, res, next) {

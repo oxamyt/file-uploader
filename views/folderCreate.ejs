@@ -6,10 +6,17 @@
     <title>Create Folder</title>
   </head>
   <body>
+    <% if (errors) { %>
+    <ul>
+      <% errors.forEach(error => { %>
+      <li class="error"><%= error.msg %></li>
+      <% }) %>
+    </ul>
+    <% } %>
     <form action="/files/folders/create" method="post">
       <label for="name">Folder name:</label>
-      <input type="text" id="name" name="name" required />
-      <button type="submit">Button</button>
+      <input type="text" id="name" name="name" value="<%= name %>" required />
+      <button type="submit">Create Folder</button>
     </form>
   </body>
 </html>
