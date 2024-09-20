@@ -40,6 +40,15 @@ async function getFilesWithFolderInfo(userId) {
   });
 }
 
+async function checkUser(userId, folderId) {
+  return prisma.folder.findUnique({
+    where: {
+      id: folderId,
+      userId: userId,
+    },
+  });
+}
+
 async function createUser(username, hashedPassword) {
   return prisma.user.create({
     data: {
@@ -47,6 +56,10 @@ async function createUser(username, hashedPassword) {
       password: hashedPassword,
     },
   });
+}
+
+async function getFileById(id) {
+  return prisma.file.findUnique({ where: { id } });
 }
 
 module.exports = {
@@ -60,4 +73,6 @@ module.exports = {
   deleteFileById,
   getFilesWithFolderInfo,
   createUser,
+  checkUser,
+  getFileById,
 };

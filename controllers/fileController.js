@@ -1,6 +1,7 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const prismaQueries = require("../utils/prismaQueries");
+const checkUser = require("../utils/checkUser");
 
 function handleError(res, err) {
   console.error("An error occurred:", err);
@@ -74,6 +75,14 @@ async function postFoldersCreate(req, res) {
 async function getUpdateFolder(req, res) {
   const folderId = parseInt(req.params.id);
 
+  const isUser = await checkUser(req.user.id, folderId);
+
+  if (!isUser) {
+    return res
+      .status(403)
+      .send("You do not have permission to access this folder.");
+  }
+
   try {
     const Folder = await prismaQueries.getFolderById(folderId);
 
@@ -89,6 +98,14 @@ async function postUpdateFolder(req, res) {
   const folderId = parseInt(req.params.id);
 
   try {
+    const isUser = await checkUser(req.user.id, folderId);
+
+    if (!isUser) {
+      return res
+        .status(403)
+        .send("You do not have permission to access this folder.");
+    }
+
     await prismaQueries.updateFolder(folderId, { name });
 
     res.redirect("/files/folders");
@@ -100,6 +117,14 @@ async function postUpdateFolder(req, res) {
 async function postDeleteFolder(req, res) {
   try {
     const folderId = parseInt(req.params.id);
+
+    const isUser = await checkUser(req.user.id, folderId);
+
+    if (!isUser) {
+      return res
+        .status(403)
+        .send("You do not have permission to access this folder.");
+    }
 
     await prismaQueries.deleteFolderById(folderId);
 
@@ -113,6 +138,14 @@ async function getFolderFiles(req, res) {
   const folderId = parseInt(req.params.id);
 
   try {
+    const isUser = await checkUser(req.user.id, folderId);
+
+    if (!isUser) {
+      return res
+        .status(403)
+        .send("You do not have permission to access this folder.");
+    }
+
     const Files = await prismaQueries.getFilesByFolderId(folderId);
 
     const updatedFiles = Files.map((file) => ({
@@ -129,6 +162,18 @@ async function getFolderFiles(req, res) {
 async function postDeleteFile(req, res) {
   try {
     const fileId = parseInt(req.params.id);
+
+    const file = await prismaQueries.getFileById(fileId);
+
+    const folderId = file.folderId;
+
+    const isUser = await checkUser(req.user.id, folderId);
+
+    if (!isUser) {
+      return res
+        .status(403)
+        .send("You do not have permission to access this folder.");
+    }
 
     await prismaQueries.deleteFileById(fileId);
 
