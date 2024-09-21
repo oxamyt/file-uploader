@@ -3,6 +3,7 @@ const passport = require("../utils/passportConfig");
 const indexController = require("../controllers/indexController");
 const { validate } = require("../utils/validate");
 const { signupValidation, loginValidation } = require("../utils/validators");
+const checkAuth = require("../utils/checkAuth");
 
 const indexRouter = Router();
 
@@ -28,5 +29,8 @@ indexRouter.post(
 );
 
 indexRouter.get("/logout", indexController.getLogout);
+
+indexRouter.get("shareFolder", checkAuth, indexController.getShareFolder);
+indexRouter.post("shareFolder", checkAuth, indexController.postShareFolder);
 
 module.exports = indexRouter;

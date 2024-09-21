@@ -51,10 +51,19 @@ async function getLogout(req, res, next) {
   });
 }
 
+async function getShareFolder(req, res) {
+  const userId = parseInt(req.user.id);
+
+  const Folders = await prismaQueries.getFoldersByUserId(userId);
+
+  res.render("shareFolder", { user: req.user, folders: Folders });
+}
+
 module.exports = {
   getHomepage,
   getSignUp,
   postSignUp,
   getLogin,
   getLogout,
+  getShareFolder,
 };

@@ -18,6 +18,7 @@ model User {
   username  String   @unique
   password  String   
   folders   Folder[]
+  sharedFolders SharedFolder[]
 }
 
 model Folder {
@@ -27,6 +28,7 @@ model Folder {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   files     File[]
   createdAt DateTime @default(now())
+  sharedBy  SharedFolder[]
 }
 
 model File {
@@ -44,4 +46,16 @@ model Session {
   sid       String   @unique
   data      String   
   expiresAt   DateTime
+}
+
+model SharedFolder {
+  id         Int       @id @default(autoincrement())
+  folderId   Int
+  folder     Folder    @relation(fields: [folderId], references: [id], onDelete: Cascade)
+  userId     Int
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt  DateTime? 
+  createdAt  DateTime  @default(now())
+
+  @@unique([folderId, userId]) 
 }
