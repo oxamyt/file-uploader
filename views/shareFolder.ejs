@@ -6,6 +6,13 @@
     <title>Share Folder</title>
   </head>
   <body>
+    <% if (errors) { %>
+    <ul>
+      <% errors.forEach(error => { %>
+      <li class="error"><%= error.msg %></li>
+      <% }) %>
+    </ul>
+    <% } %>
     <form action="/share-folder" method="post">
       <label for="folder">Select Folder:</label>
       <select id="folder" name="folderId" required>

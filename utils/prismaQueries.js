@@ -74,6 +74,15 @@ async function getSharedFolderByLinkId(linkId) {
   });
 }
 
+async function getSharedFolderByUserAndFolderId(userId, folderId) {
+  return await prisma.sharedFolder.findFirst({
+    where: {
+      userId: userId,
+      folderId: folderId,
+    },
+  });
+}
+
 module.exports = {
   getFoldersByUserId,
   createFile,
@@ -89,4 +98,5 @@ module.exports = {
   getFileById,
   createSharedFolder,
   getSharedFolderByLinkId,
+  getSharedFolderByUserAndFolderId,
 };

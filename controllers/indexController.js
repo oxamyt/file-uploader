@@ -38,6 +38,12 @@ async function postSignUp(req, res) {
 
     res.redirect("/");
   } catch (err) {
+    if (err.code === "P2002" && err.meta.target.includes("username")) {
+      return res.status(400).render("signUp", {
+        errors: [{ msg: "Username is already in use." }],
+        username,
+      });
+    }
     handleError(res, err);
   }
 }
@@ -58,7 +64,7 @@ async function getShareFolder(req, res) {
 
   const Folders = await prismaQueries.getFoldersByUserId(userId);
 
-  res.render("shareFolder", { user: req.user, folders: Folders });
+  res.render("shareFolder", { user: req.user, folders: Folders, errors: [] });
 }
 
 async function postShareFolder(req, res) {
@@ -66,6 +72,22 @@ async function postShareFolder(req, res) {
   const userId = parseInt(req.user.id);
 
   try {
+    const existingSharedFolder =
+      await prismaQueries.getSharedFolderByUserAndFolderId(
+        userId,
+        parseInt(folderId)
+      );
+
+    const Folders = await prismaQueries.getFoldersByUserId(userId);
+
+    if (existingSharedFolder) {
+      return res.status(400).render("shareFolder", {
+        errors: [{ msg: "You have already shared this folder." }],
+        user: req.user,
+        folders: Folders,
+      });
+    }
+
     const linkId = uuidv4();
 
     const expiresAt = new Date(
