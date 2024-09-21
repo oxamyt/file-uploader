@@ -53,18 +53,25 @@ async function getLogin(req, res) {
 }
 
 async function getLogout(req, res, next) {
-  req.logout((err) => {
-    if (err) return next(err);
-    res.redirect("/");
-  });
+  try {
+    req.logout((err) => {
+      if (err) return next(err);
+      res.redirect("/");
+    });
+  } catch (err) {
+    handleError(res, err);
+  }
 }
 
 async function getShareFolder(req, res) {
   const userId = parseInt(req.user.id);
+  try {
+    const Folders = await prismaQueries.getFoldersByUserId(userId);
 
-  const Folders = await prismaQueries.getFoldersByUserId(userId);
-
-  res.render("shareFolder", { user: req.user, folders: Folders, errors: [] });
+    res.render("shareFolder", { user: req.user, folders: Folders, errors: [] });
+  } catch (err) {
+    handleError(res, err);
+  }
 }
 
 async function postShareFolder(req, res) {

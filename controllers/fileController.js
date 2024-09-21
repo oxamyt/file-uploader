@@ -174,6 +174,10 @@ async function postDeleteFile(req, res) {
 
     const file = await prismaQueries.getFileById(fileId);
 
+    if (!file) {
+      handleError(res, err);
+    }
+
     const folderId = file.folderId;
 
     const isUser = await checkUser(req.user.id, folderId);
@@ -186,7 +190,7 @@ async function postDeleteFile(req, res) {
 
     await prismaQueries.deleteFileById(fileId);
 
-    res.redirect("/files/folders");
+    res.redirect(`/files/folders/${folderId}`);
   } catch (err) {
     handleError(res, err);
   }
