@@ -22,7 +22,6 @@ async function getUpload(req, res) {
 }
 
 async function postUpload(req, res) {
-  console.log(req.body);
   const { folderId } = req.body;
   const file = req.file;
   const fileUrl = req.file.path;
@@ -105,6 +104,7 @@ async function getUpdateFolder(req, res) {
 
 async function postUpdateFolder(req, res) {
   const folderId = parseInt(req.params.id);
+  const { name } = req.body;
 
   try {
     const isUser = await checkUser(req.user.id, folderId);

@@ -30,7 +30,9 @@ indexRouter.post(
 
 indexRouter.get("/logout", indexController.getLogout);
 
-indexRouter.get("shareFolder", checkAuth, indexController.getShareFolder);
-indexRouter.post("shareFolder", checkAuth, indexController.postShareFolder);
+indexRouter.get("/share-folder", checkAuth, indexController.getShareFolder);
+indexRouter.post("/share-folder", checkAuth, indexController.postShareFolder);
+
+indexRouter.get("/share/:id", indexController.getShare);
 
 module.exports = indexRouter;

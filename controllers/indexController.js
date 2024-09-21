@@ -1,6 +1,8 @@
 const bcrypt = require("bcryptjs");
 const { validationResult } = require("express-validator");
 const prismaQueries = require("../utils/prismaQueries");
+const { v4: uuidv4 } = require("uuid");
+const parseDurationToMilliseconds = require("../utils/parseDuration");
 
 function handleError(res, err) {
   console.error("An error occurred:", err);
@@ -59,6 +61,65 @@ async function getShareFolder(req, res) {
   res.render("shareFolder", { user: req.user, folders: Folders });
 }
 
+async function postShareFolder(req, res) {
+  const { folderId, duration } = req.body;
+  const userId = parseInt(req.user.id);
+
+  try {
+    const linkId = uuidv4();
+
+    const expiresAt = new Date(
+      Date.now() + parseDurationToMilliseconds(duration)
+    );
+
+    await prismaQueries.createSharedFolder({
+      folderId: parseInt(folderId),
+      userId: userId,
+      linkId: linkId,
+      expiresAt: expiresAt,
+    });
+
+    const shareLink = `${req.protocol}://${req.get("host")}/share/${linkId}`;
+
+    res.render("shareFolderSuccess", { shareLink });
+  } catch (err) {
+    handleError(res, err);
+  }
+}
+
+async function getShare(req, res) {
+  const linkId = req.params.id;
+
+  try {
+    const sharedFolder = await prismaQueries.getSharedFolderByLinkId(linkId);
+
+    if (!sharedFolder) {
+      return res.status(404).render("error", {
+        message: "This shared folder link does not exist or has expired.",
+      });
+    }
+
+    if (sharedFolder.expiresAt && sharedFolder.expiresAt < new Date()) {
+      return res.status(410).render("error", {
+        message: "This shared folder link has expired.",
+      });
+    }
+
+    const Folder = await prismaQueries.getFolderById(sharedFolder.folderId);
+
+    const Files = await prismaQueries.getFilesByFolderId(sharedFolder.folderId);
+
+    const updatedFiles = Files.map((file) => ({
+      ...file,
+      url: file.url.replace(/upload/, "upload/fl_attachment"),
+    }));
+
+    res.render("sharedFolder", { folder: Folder, files: updatedFiles });
+  } catch (err) {
+    handleError(res, err);
+  }
+}
+
 module.exports = {
   getHomepage,
   getSignUp,
@@ -66,4 +127,6 @@ module.exports = {
   getLogin,
   getLogout,
   getShareFolder,
+  postShareFolder,
+  getShare,
 };

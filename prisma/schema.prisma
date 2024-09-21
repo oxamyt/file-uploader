@@ -50,6 +50,7 @@ model Session {
 
 model SharedFolder {
   id         Int       @id @default(autoincrement())
+  linkId    String   @unique
   folderId   Int
   folder     Folder    @relation(fields: [folderId], references: [id], onDelete: Cascade)
   userId     Int

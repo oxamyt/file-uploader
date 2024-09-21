@@ -62,6 +62,18 @@ async function getFileById(id) {
   return prisma.file.findUnique({ where: { id } });
 }
 
+async function createSharedFolder(data) {
+  return await prisma.sharedFolder.create({
+    data,
+  });
+}
+
+async function getSharedFolderByLinkId(linkId) {
+  return prisma.sharedFolder.findUnique({
+    where: { linkId },
+  });
+}
+
 module.exports = {
   getFoldersByUserId,
   createFile,
@@ -75,4 +87,6 @@ module.exports = {
   createUser,
   checkUser,
   getFileById,
+  createSharedFolder,
+  getSharedFolderByLinkId,
 };

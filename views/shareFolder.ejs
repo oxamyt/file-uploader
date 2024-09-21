@@ -6,14 +6,18 @@
     <title>Share Folder</title>
   </head>
   <body>
-    <form action="/share-folder">
+    <form action="/share-folder" method="post">
       <label for="folder">Select Folder:</label>
       <select id="folder" name="folderId" required>
         <% folders.forEach(folder => { %>
         <option value="<%= folder.id %>"><%= folder.name %></option>
         <% }) %>
       </select>
-      <button type="submit">Submit</button>
+
+      <label for="duration">Share duration(e.g., 1d, 10h):</label>
+      <input type="text" id="duration" name="duration" required />
+
+      <button type="submit">Share Folder</button>
     </form>
   </body>
 </html>
