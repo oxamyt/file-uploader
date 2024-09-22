@@ -40,6 +40,10 @@ app.use(express.static("public"));
 app.use("/", indexRouter);
 app.use("/files", fileRouter);
 
+app.use((req, res) => {
+  res.status(404).render("404");
+});
+
 app.listen(port, "0.0.0.0", () => {
   console.log(`Example app listening on port ${port}`);
 });

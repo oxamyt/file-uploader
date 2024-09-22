@@ -2,7 +2,7 @@ const { Router } = require("express");
 const fileController = require("../controllers/fileController");
 const upload = require("../utils/multerConfig");
 const checkAuth = require("../utils/checkAuth");
-const { folderValidation, fileValidation } = require("../utils/validators");
+const { folderValidation } = require("../utils/validators");
 const { validate } = require("../utils/validate");
 
 const fileRouter = Router();

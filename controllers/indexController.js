@@ -36,7 +36,7 @@ async function postSignUp(req, res) {
     const hashedPassword = await bcrypt.hash(password, 10);
     await prismaQueries.createUser(username, hashedPassword);
 
-    res.redirect("/");
+    res.redirect("/login");
   } catch (err) {
     if (err.code === "P2002" && err.meta.target.includes("username")) {
       return res.status(400).render("signUp", {
