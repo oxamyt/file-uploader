@@ -54,7 +54,11 @@
           <tbody>
             <% files.forEach(function(file) { %>
             <tr class="hover:bg-gray-100 text-center">
-              <td class="py-2 px-4 border-b"><%= file.name %></td>
+              <td
+                class="py-2 px-4 border-b truncate max-w-xs whitespace-nowrap overflow-ellipsis"
+              >
+                <%= file.name %>
+              </td>
               <td class="py-2 px-4 border-b"><%= file.size %></td>
               <td class="py-2 px-4 border-b">
                 <%= new Date(file.createdAt).toLocaleDateString() %>
@@ -90,7 +94,11 @@
       <div class="card-container">
         <% files.forEach(function(file) { %>
         <div class="bg-white shadow-md rounded-lg card">
-          <h2 class="font-semibold text-lg mb-2"><%= file.name %></h2>
+          <h2
+            class="font-semibold text-lg mb-2 truncate max-w-xs whitespace-nowrap overflow-ellipsis"
+          >
+            <%= file.name %>
+          </h2>
           <p class="text-gray-700">Size: <%= file.size %> bytes</p>
           <p class="text-gray-700">
             Created At: <%= new Date(file.createdAt).toLocaleDateString() %>
