@@ -3,37 +3,129 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= folder.name %> - Shared Folder</title>
+    <title>Folder: <%= folder.name %> - Shared Folder</title>
+    <link href="/stylesheets/output.css" rel="stylesheet" />
+    <style>
+      @media (max-width: 768px) {
+        .table-container {
+          display: none;
+        }
+        .card-container {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 16px;
+        }
+      }
+
+      @media (min-width: 769px) {
+        .table-container {
+          display: block;
+        }
+        .card-container {
+          display: none;
+        }
+      }
+
+      .card-container .card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 16px;
+        text-align: center;
+      }
+    </style>
   </head>
-  <body>
-    <h1>Folder: <%= folder.name %></h1>
-    <h1>Files in Folder</h1>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Size (bytes)</th>
-          <th>Created At</th>
-          <th>URL</th>
-        </tr>
-      </thead>
-      <tbody>
+  <body class="bg-gray-100 font-sans flex flex-col items-center min-h-screen">
+    <div class="container mx-auto p-4 max-w-4xl">
+      <h1 class="text-3xl font-bold text-center mb-6">
+        Folder: <%= folder.name %>
+      </h1>
+      <h2 class="text-2xl font-semibold text-center mb-4">Files in Folder</h2>
+
+      <div class="table-container">
+        <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+          <thead>
+            <tr class="bg-gray-200 text-gray-700">
+              <th class="py-2 px-4 border-b">Name</th>
+              <th class="py-2 px-4 border-b">Size (bytes)</th>
+              <th class="py-2 px-4 border-b">Created At</th>
+              <th class="py-2 px-4 border-b">Download</th>
+              <th class="py-2 px-4 border-b">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% files.forEach(function(file) { %>
+            <tr class="hover:bg-gray-100 text-center">
+              <td class="py-2 px-4 border-b"><%= file.name %></td>
+              <td class="py-2 px-4 border-b"><%= file.size %></td>
+              <td class="py-2 px-4 border-b">
+                <%= new Date(file.createdAt).toLocaleDateString() %>
+              </td>
+              <td class="py-2 px-4 border-b">
+                <a
+                  href="<%= file.url %>"
+                  target="_blank"
+                  class="bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-green-600 transition"
+                  >Download</a
+                >
+              </td>
+              <td class="py-2 px-4 border-b">
+                <form
+                  action="/files/delete/<%= file.id %>"
+                  method="post"
+                  class="inline-block"
+                >
+                  <button
+                    type="submit"
+                    class="bg-red-500 text-white font-bold py-1 px-4 rounded hover:bg-red-600 transition"
+                  >
+                    Delete
+                  </button>
+                </form>
+              </td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card-container">
         <% files.forEach(function(file) { %>
-        <tr>
-          <td><%= file.name %></td>
-          <td><%= file.size %></td>
-          <td><%= new Date(file.createdAt).toLocaleDateString() %></td>
-          <td class="file-url">
-            <a href="<%= file.url %>" target="_blank"><%= file.url %></a>
-          </td>
-          <td>
-            <form action="/files/delete/<%= file.id %>" method="post">
-              <button type="submit">Delete File</button>
+        <div class="bg-white shadow-md rounded-lg card">
+          <h2 class="font-semibold text-lg mb-2"><%= file.name %></h2>
+          <p class="text-gray-700">Size: <%= file.size %> bytes</p>
+          <p class="text-gray-700">
+            Created At: <%= new Date(file.createdAt).toLocaleDateString() %>
+          </p>
+          <div class="mt-auto flex justify-between space-x-2">
+            <a
+              href="<%= file.url %>"
+              target="_blank"
+              class="bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-green-600 transition flex-1 text-center"
+              >Download</a
+            >
+            <form
+              action="/files/delete/<%= file.id %>"
+              method="post"
+              class="flex-1"
+            >
+              <button
+                type="submit"
+                class="bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-600 transition flex-1"
+              >
+                Delete
+              </button>
             </form>
-          </td>
-        </tr>
+          </div>
+        </div>
         <% }) %>
-      </tbody>
-    </table>
+      </div>
+
+      <% if (files.length === 0) { %>
+      <p class="text-gray-700 text-center mt-4">
+        No files found in this folder.
+      </p>
+      <% } %>
+    </div>
   </body>
 </html>

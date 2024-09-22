@@ -4,27 +4,65 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Share Folder</title>
+    <link href="/stylesheets/output.css" rel="stylesheet" />
   </head>
-  <body>
-    <% if (errors) { %>
-    <ul>
-      <% errors.forEach(error => { %>
-      <li class="error"><%= error.msg %></li>
-      <% }) %>
-    </ul>
-    <% } %>
-    <form action="/share-folder" method="post">
-      <label for="folder">Select Folder:</label>
-      <select id="folder" name="folderId" required>
-        <% folders.forEach(folder => { %>
-        <option value="<%= folder.id %>"><%= folder.name %></option>
+  <body
+    class="bg-gray-100 font-sans flex items-center justify-center min-h-screen"
+  >
+    <div
+      class="container p-4 max-w-md bg-white rounded-lg shadow-md flex flex-col items-center"
+    >
+      <h1 class="text-3xl font-bold text-center mb-6">Share Folder</h1>
+
+      <% if (errors) { %>
+      <ul class="mb-4 w-full">
+        <% errors.forEach(error => { %>
+        <li class="bg-red-200 text-red-600 p-2 rounded mb-2">
+          <%= error.msg %>
+        </li>
         <% }) %>
-      </select>
+      </ul>
+      <% } %>
 
-      <label for="duration">Share duration(e.g., 1d, 10h):</label>
-      <input type="text" id="duration" name="duration" required />
+      <form action="/share-folder" method="post" class="w-full">
+        <label
+          for="folder"
+          class="block text-sm font-medium text-gray-700 mb-2"
+        >
+          Select Folder:
+        </label>
+        <select
+          id="folder"
+          name="folderId"
+          required
+          class="border border-gray-300 rounded-md p-2 w-full mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <% folders.forEach(folder => { %>
+          <option value="<%= folder.id %>"><%= folder.name %></option>
+          <% }) %>
+        </select>
 
-      <button type="submit">Share Folder</button>
-    </form>
+        <label
+          for="duration"
+          class="block text-sm font-medium text-gray-700 mb-2"
+        >
+          Share Duration (e.g., 1d, 10h):
+        </label>
+        <input
+          type="text"
+          id="duration"
+          name="duration"
+          required
+          class="border border-gray-300 rounded-md p-2 w-full mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+
+        <button
+          type="submit"
+          class="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 transition w-full"
+        >
+          Share Folder
+        </button>
+      </form>
+    </div>
   </body>
 </html>

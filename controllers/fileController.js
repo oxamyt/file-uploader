@@ -202,7 +202,12 @@ async function getFiles(req, res) {
 
     const Files = await prismaQueries.getFilesWithFolderInfo(userId);
 
-    res.render("files", { files: Files });
+    const updatedFiles = Files.map((file) => ({
+      ...file,
+      url: file.url.replace(/upload/, "upload/fl_attachment"),
+    }));
+
+    res.render("files", { files: updatedFiles });
   } catch (err) {
     handleError(res, err);
   }
