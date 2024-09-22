@@ -3,30 +3,76 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Sign Up</title>
+    <link href="/stylesheets/output.css" rel="stylesheet" />
   </head>
-  <body>
-    <% if (errors) { %>
-    <ul>
-      <% errors.forEach(error => { %>
-      <li class="error"><%= error.msg %></li>
-      <% }) %>
-    </ul>
-    <% } %>
-    <form action="/sign-up" method="post">
-      <label for="username">Username:</label>
-      <input
-        type="text"
-        id="username"
-        name="username"
-        value="<%= username %>"
-        required
-      />
-      <label for="password">Password:</label>
-      <input type="password" id="password" name="password" required />
-      <label for="confirm-password">Confirm password</label>
-      <input type="password" id="confirm-password" name="confirm-password" />
-      <button type="submit">Submit</button>
-    </form>
+  <body
+    class="bg-gray-100 font-sans flex items-center justify-center min-h-screen"
+  >
+    <div class="container mx-auto p-4 max-w-sm">
+      <h1 class="text-2xl font-bold text-center mb-6">Create an Account</h1>
+
+      <% if (errors && errors.length > 0) { %>
+      <ul
+        class="mb-4 bg-red-100 text-red-700 border border-red-400 rounded p-3"
+      >
+        <% errors.forEach(error => { %>
+        <li><%= error.msg %></li>
+        <% }) %>
+      </ul>
+      <% } %>
+
+      <form
+        action="/sign-up"
+        method="post"
+        class="bg-white shadow-md rounded p-6"
+      >
+        <div class="mb-4">
+          <label for="username" class="block text-sm font-medium text-gray-700"
+            >Username:</label
+          >
+          <input
+            type="text"
+            id="username"
+            name="username"
+            value="<%= username %>"
+            required
+            class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring focus:ring-blue-500"
+          />
+        </div>
+        <div class="mb-4">
+          <label for="password" class="block text-sm font-medium text-gray-700"
+            >Password:</label
+          >
+          <input
+            type="password"
+            id="password"
+            name="password"
+            required
+            class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring focus:ring-blue-500"
+          />
+        </div>
+        <div class="mb-4">
+          <label
+            for="confirm-password"
+            class="block text-sm font-medium text-gray-700"
+            >Confirm Password:</label
+          >
+          <input
+            type="password"
+            id="confirm-password"
+            name="confirm-password"
+            required
+            class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring focus:ring-blue-500"
+          />
+        </div>
+        <button
+          type="submit"
+          class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 rounded transition"
+        >
+          Submit
+        </button>
+      </form>
+    </div>
   </body>
 </html>

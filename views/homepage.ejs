@@ -4,20 +4,63 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Homepage</title>
+    <link href="/stylesheets/output.css" rel="stylesheet" />
   </head>
-  <body>
-    <% if (user) { %>
-    <h1>Welcome back <%= user.username %></h1>
-    <a href="/files/folders/create">Create folder</a>
-    <a href="/logout">Logout</a>
-    <a href="/files/folders">Folders</a>
-    <a href="/files/upload">Upload file</a>
-    <a href="/files">All Files</a>
-    <a href="/share-folder">Share Folder</a>
-    <% } else { %>
-    <h1>Please sign up first!</h1>
-    <a href="/sign-up">Sign up!</a>
-    <a href="/login">Login</a>
-    <% } %>
+  <body
+    class="bg-gray-100 font-sans flex items-center justify-center min-h-screen"
+  >
+    <div class="container mx-auto p-4">
+      <% if (user) { %>
+      <h1 class="text-3xl font-bold text-center mb-6">
+        Welcome back, <%= user.username %>!
+      </h1>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <a
+          href="/files/folders/create"
+          class="block bg-blue-500 hover:bg-blue-600 text-white text-center py-3 rounded shadow-md transition"
+          >Create Folder</a
+        >
+        <a
+          href="/logout"
+          class="block bg-red-500 hover:bg-red-600 text-white text-center py-3 rounded shadow-md transition"
+          >Logout</a
+        >
+        <a
+          href="/files/folders"
+          class="block bg-green-500 hover:bg-green-600 text-white text-center py-3 rounded shadow-md transition"
+          >Folders</a
+        >
+        <a
+          href="/files/upload"
+          class="block bg-purple-500 hover:bg-purple-600 text-white text-center py-3 rounded shadow-md transition"
+          >Upload File</a
+        >
+        <a
+          href="/files"
+          class="block bg-yellow-500 hover:bg-yellow-600 text-white text-center py-3 rounded shadow-md transition"
+          >All Files</a
+        >
+        <a
+          href="/share-folder"
+          class="block bg-indigo-500 hover:bg-indigo-600 text-white text-center py-3 rounded shadow-md transition"
+          >Share Folder</a
+        >
+      </div>
+      <% } else { %>
+      <h1 class="text-3xl font-bold text-center mb-6">Please Sign Up First!</h1>
+      <div class="flex flex-col items-center space-y-4">
+        <a
+          href="/sign-up"
+          class="bg-green-500 hover:bg-green-600 text-white text-center py-2 px-4 rounded shadow-md transition"
+          >Sign Up!</a
+        >
+        <a
+          href="/login"
+          class="bg-blue-500 hover:bg-blue-600 text-white text-center py-2 px-4 rounded shadow-md transition"
+          >Login</a
+        >
+      </div>
+      <% } %>
+    </div>
   </body>
 </html>
